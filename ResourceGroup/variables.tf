@@ -1,3 +1,7 @@
+variable "projectName" {
+	type = string
+	description = "name of the project"
+}
 variable "subscriptionID" {
 	type = string
 	description = "name of the subscription"

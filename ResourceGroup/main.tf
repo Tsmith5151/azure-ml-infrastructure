@@ -5,7 +5,7 @@ provider "azurerm" {
     features {}
 }
 
-resource "azurerm_resource_group" "MachineLearning" {
+resource "azurerm_resource_group" "example" {
 	name = var.resourceGroupName
 	location = var.location
 

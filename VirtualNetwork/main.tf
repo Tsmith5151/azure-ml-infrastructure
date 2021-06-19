@@ -5,8 +5,8 @@ provider "azurerm" {
     features {}
 }
 
-resource "azurerm_network_security_group" "machine-learning" {
-  name                = "MachineLearningNSG"
+resource "azurerm_network_security_group" "example" {
+  name                = "${var.projectName}-nsg"
   location            = var.location
   resource_group_name = var.resourceGroupName
 }
@@ -21,8 +21,8 @@ resource "azurerm_network_security_rule" "Port80" {
   destination_port_range      = "80"
   source_address_prefix       = "*"
   destination_address_prefix  = "*"
-  resource_group_name         = azurerm_network_security_group.machine-learning.resource_group_name
-  network_security_group_name = azurerm_network_security_group.machine-learning.name
+  resource_group_name         = azurerm_network_security_group.example.resource_group_name
+  network_security_group_name = azurerm_network_security_group.example.name
 }
 
 resource "azurerm_network_security_rule" "Port443" {
@@ -35,25 +35,25 @@ resource "azurerm_network_security_rule" "Port443" {
   destination_port_range      = "443"
   source_address_prefix       = "*"
   destination_address_prefix  = "*"
-  resource_group_name         = azurerm_network_security_group.machine-learning.resource_group_name
-  network_security_group_name = azurerm_network_security_group.machine-learning.name
+  resource_group_name         = azurerm_network_security_group.example.resource_group_name
+  network_security_group_name = azurerm_network_security_group.example.name
 }
 
-resource "azurerm_virtual_network" "machine-learning-vnet" {
-  name                = "example-vnet"
-  location            = azurerm_network_security_group.machine-learning.location
+resource "azurerm_virtual_network" "example-vnet" {
+  name                = lower("${var.projectName}-vnet")
+  location            = azurerm_network_security_group.example.location
   resource_group_name = var.resourceGroupName
   address_space       = ["10.0.0.0/16"]
-  dns_servers         = ["8.8.8.8", "8.8.4.4"]
+  dns_servers         = ["10.0.0.1"]
 
   tags = {
-    environment = "Dev"
+    environment = var.environment
   }
 }
 
 resource "azurerm_subnet" "example-sub" {
-  name                 = "testsubnet"
-  resource_group_name  = azurerm_network_security_group.machine-learning.resource_group_name
-  virtual_network_name = azurerm_virtual_network.machine-learning-vnet.name
+  name                 = lower("${var.projectName}-subnet")
+  resource_group_name  = azurerm_network_security_group.example.resource_group_name
+  virtual_network_name = azurerm_virtual_network.example-vnet.name
   address_prefix       = "10.0.1.0/24"
 }
