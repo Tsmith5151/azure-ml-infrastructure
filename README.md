@@ -4,7 +4,8 @@ This repository contains IaC for Machine Learning Task in Azure using
 [Terraform](https://www.terraform.io/). The objective is to help Data
 Scientist automate building their Machine Learning workspaces with commonly
 used infrastructure components required for building secure and scalable ML
-projects in Azure. The following components will be the target to cover:
+projects in Azure. Templates will be created for the following resources
+but not limited to:
 
 - Virtual Networks & NSGs
 - Azure Storage 
@@ -14,6 +15,11 @@ projects in Azure. The following components will be the target to cover:
 - Databricks
 - Virtual Machine (Linux)
 - Application Gateway
+
+> Note: each organization has their own cloud securtiy guidelines (e.g. NSGs,
+virtual networks, public IPs, firewalls, etc.). The templates shown here are 
+the baseline to quickly get started, however you should modify the 
+templates to fit your security requirements. 
 
 ## Getting Started
 
